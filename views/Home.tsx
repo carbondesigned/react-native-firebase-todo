@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-
-import Fab from "../components/Fab";
+import { Ionicons } from "@expo/vector-icons";
 import TodoGroup from "../components/TodoGroup";
 import { TodoGroupType } from "../lib/Types";
 import AddButton from "../components/AddButton";
@@ -27,11 +26,8 @@ const Home = ({ navigation }: any, props: Props) => {
   ]);
 
   const addTodoItem = (item: TodoGroupType) => {
-    // add an item to the list with an updated id
     item.id = list[list.length - 1].id + 1;
     setList([...list, item]);
-    // list.push(item);
-    // setList([...list]);
   };
 
   const removeTodoItem = (itemId: number) => {
@@ -42,12 +38,27 @@ const Home = ({ navigation }: any, props: Props) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: () => <View style={{ paddingHorizontal: 10 }}></View>,
       headerRight: () => (
-        <AddButton
-          onPress={() =>
-            navigation.navigate("Edit", { saveChanges: addTodoItem })
-          }
-        />
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            paddingHorizontal: 10,
+          }}
+        >
+          <TouchableOpacity
+            style={{ paddingHorizontal: 6 }}
+            onPress={navigation.navigate("Settings")}
+          >
+            <Ionicons name="settings" size={24} color={Colors.primary} />
+          </TouchableOpacity>
+          <AddButton
+            onPress={() =>
+              navigation.navigate("Edit", { saveChanges: addTodoItem })
+            }
+          />
+        </View>
       ),
     });
   });

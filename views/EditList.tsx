@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { TextInput } from "react-native-gesture-handler";
 import Colors from "../lib/Colors";
-import SaveButton from "../components/SaveButton";
+import SaveButton from "../components/BottomButton";
 import { CommonActions } from "@react-navigation/native";
 import ColorSelector from "../components/ColorSelector";
 

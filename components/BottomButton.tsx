@@ -3,11 +3,11 @@ import React, { ReactNode } from "react";
 import Colors from "../lib/Colors";
 
 type Props = {
-  onPress: () => void;
+  onPress?: () => void;
   children: ReactNode;
 };
 
-const SaveButton = ({ onPress, children }: Props) => {
+const BottomButton = ({ onPress, children }: Props) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
       <Text style={styles.text}>{children}</Text>
@@ -15,7 +15,7 @@ const SaveButton = ({ onPress, children }: Props) => {
   );
 };
 
-export default SaveButton;
+export default BottomButton;
 
 const styles = StyleSheet.create({
   button: {

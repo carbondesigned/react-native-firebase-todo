@@ -1,61 +1,43 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import Home from "./views/Home";
-import TodoDetails from "./views/TodoDetails";
-import Colors from "./lib/Colors";
-import EditList from "./views/EditList";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import firebase from 'firebase/app';
+import Screens from './views/Screens';
+import Login from './views/Login';
+import React, { useEffect } from 'react';
+import { firebaseConfig } from './lib/firebase';
+const AuthStack = createStackNavigator();
 
-type RootStackParamList = {
-  Home: undefined;
-  Details: { title: string; color: string };
-  Edit: { title: string; color: string };
+export const AuthScreens = () => {
+  return (
+    <AuthStack.Navigator>
+      <AuthStack.Screen name='Login' component={Login} />
+    </AuthStack.Navigator>
+  );
 };
-const Stack = createStackNavigator<RootStackParamList>();
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  useEffect(() => {
+    () => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log(user);
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      });
+    };
+  });
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen
-          name="Details"
-          component={TodoDetails}
-          options={({ route }) => {
-            return {
-              title: route.params.title,
-              headerStyle: {
-                backgroundColor: route.params.color,
-              },
-              headerTintColor: Colors.white,
-            };
-          }}
-        />
-        <Stack.Screen
-          name="Edit"
-          component={EditList}
-          options={({ route }) => {
-            return {
-              title: route.params.title
-                ? `Edit ${route.params.title}`
-                : "Create New Group",
-              headerStyle: {
-                backgroundColor: route.params.color || Colors.white,
-              },
-              headerTintColor: route.params.title ? Colors.white : Colors.dark,
-            };
-          }}
-        />
-      </Stack.Navigator>
+      {isAuthenticated ? <Screens /> : <AuthScreens />}
     </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app(); // if already initialized, use that one
+}

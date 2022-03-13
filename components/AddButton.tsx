@@ -11,35 +11,10 @@ type Props = {
 
 const AddButton = (props: Props) => {
   return (
-    <TouchableOpacity onPress={props.onPress} style={styles.button}>
-      <Ionicons
-        name="add"
-        size={24}
-        color={Colors.white}
-        style={{ padding: 4, margin: 0, width: 32, height: 32 }}
-      />
+    <TouchableOpacity onPress={props.onPress}>
+      <Ionicons name="add" size={28} color={Colors.primary} />
     </TouchableOpacity>
   );
 };
 
 export default AddButton;
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: Colors.primary,
-    // width: 32,
-    // height: 32,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 999,
-    marginRight: 10,
-  },
-  fabText: {
-    fontSize: 18,
-    lineHeight: 24,
-    padding: 0,
-    margin: 0,
-    color: Colors.white,
-  },
-});
